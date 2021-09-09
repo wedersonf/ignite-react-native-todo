@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
 
+import { Task } from '../components/TaskItem';
 import { Header } from '../components/Header';
-import { Task, TasksList } from '../components/TasksList';
+import { TasksList } from '../components/TasksList';
 import { TodoInput } from '../components/TodoInput';
 
 export function Home() {
@@ -22,6 +23,15 @@ export function Home() {
     };
 
     setTasks(oldTasks => [...oldTasks, newTask]);
+  }
+
+  function handleEditTask(taskId: number, taskNewTitle: string) {
+    const attTasks = tasks.map(task => task.id === taskId
+      ? { ...task, title: taskNewTitle }
+      : task
+    );
+
+    setTasks(attTasks);
   }
 
   function handleToggleTaskDone(id: number) {
@@ -60,7 +70,8 @@ export function Home() {
       <TasksList 
         tasks={tasks} 
         toggleTaskDone={handleToggleTaskDone}
-        removeTask={handleRemoveTask} 
+        removeTask={handleRemoveTask}
+        editTask={handleEditTask}
       />
     </View>
   )
